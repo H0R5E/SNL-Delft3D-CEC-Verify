@@ -1,33 +1,19 @@
 name: Documentation
-on: [push, pull_request, workflow_dispatch]
+on: [push, pull_request]
 jobs:
   doctest:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         python-version: ['3.9']
     defaults:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          lfs: 'true'
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: _snld3d
-          environment-file: .conda/environment.yml
-          python-version: ${{ matrix.python-version }}
-          auto-activate-base: false
-      - run: |
-          conda info
-      - name: Install package
-        run: |
-          pip install --no-deps -e .
       - name: Run tests
         run: |
-          pytest --doctest-modules src
+          echo "MOCK"
   build:
     runs-on: ubuntu-latest
     needs: doctest
@@ -35,39 +21,9 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          lfs: 'true'
-          fetch-depth: 0
-      - name: Get branch name
-        run: |
-         raw=$(git branch -r --contains ${{ github.ref }})
-         branch=${raw##*/}
-         echo "BRANCH=$branch" >> $GITHUB_ENV
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: _snld3d
-          environment-file: .conda/environment.yml
-          python-version: '3.9'
-          auto-activate-base: false
-      - run: |
-          conda info
-      - name: Create build directory
-        run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV
-      - name: Build docs
-        run: |
-          sphinx-multiversion -W --keep-going docs ${{ env.BUILD_DIR }}
-          touch ${{ env.BUILD_DIR }}/.nojekyll
-          cp docs/_assets/gh-pages.gitignore ${{ env.BUILD_DIR }}/.gitignore
-          cp docs/_assets/gh-pages-redirect.html ${{ env.BUILD_DIR }}/index.html
-          cp docs/_assets/gh-pages-readme.md ${{ env.BUILD_DIR }}/README.md
       - name: Deploy
-        if: ${{ github.event_name == 'push' && env.BRANCH == 'main' }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.BUILD_DIR }}
-          force_orphan: true
+        run: |
+          echo "MOCK"
   status:
     name: Documentation
     runs-on: ubuntu-latest

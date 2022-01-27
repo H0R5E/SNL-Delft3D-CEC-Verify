@@ -21,4 +21,5 @@ version_pattern = [
     "docs/conf.py:smv_latest_version = 'v(\\d+\\.\\d+\\.\\d+)'",
     "docs/_assets/gh-pages-redirect.html:v(\\d+\\.\\d+\\.\\d+)"
 ]
-tag_commit = false
+commit_parser = "semantic_release.history.emoji_parser"
+upload_to_repository = "false"
