@@ -4,6 +4,7 @@ channels:
   - nodefaults
 dependencies:
   # Packaging
+  - conda-lock
   - pip
   - python-semantic-release
   # Package

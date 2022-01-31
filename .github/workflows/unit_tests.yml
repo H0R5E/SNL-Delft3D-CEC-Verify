@@ -5,7 +5,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            lock-file: conda-win-64.lock
+          - os: ubuntu-latest
+            lock-file: conda-linux-64.lock
         python-version: ['3.9']
     defaults:
       run:
@@ -17,7 +21,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: _snld3d
-          environment-file: .conda/environment.yml
+          environment-file: .conda/${{ matrix.lock-file }}
           python-version: ${{ matrix.python-version }}
           auto-activate-base: false
       - run: |
