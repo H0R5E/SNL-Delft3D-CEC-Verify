@@ -3,7 +3,7 @@ name: Semantic Release
 on:
   push:
     branches:
-      - main
+      - test
 
 jobs:
   release:
@@ -32,7 +32,7 @@ jobs:
         sudo apt-get update && sudo apt-get install git-lfs
       if: env.GIT_COMMIT_COMMITTER_NAME != 'github-actions'
     - name: Python Semantic Release
-      uses: relekang/python-semantic-release@master
+      uses: H0R5E/python-semantic-release@actions_lfs
       with:
         github_token: ${{ secrets.ADMIN_TOKEN }}
       if: env.GIT_COMMIT_COMMITTER_NAME != 'github-actions'
