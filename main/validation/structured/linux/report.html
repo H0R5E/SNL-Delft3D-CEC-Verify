@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Grid Convergence Study (Linux) &#8212; SNL-Delft3D-CEC-Verify 0.8.2 documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/insipid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="../../../_static/insipid.js"></script>
+    <script defer src="../../../_static/insipid-sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model Comparison (Windows)" href="../../comparison/report.html" />
+    <link rel="prev" title="Grid Convergence Study (Linux)" href="../../fm/linux/report.html" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head><body>
+    <script type="text/javascript">
+        document.body.classList.add('js');
+    </script>
+    <input type="checkbox" id="sidebar-checkbox" style="display: none;">
+    <label id="overlay" for="sidebar-checkbox"></label>
+    <div class="sidebar-resize-handle"></div>
+    <script type="text/javascript">
+        try {
+            let sidebar = localStorage.getItem('sphinx-sidebar');
+            const sidebar_width = localStorage.getItem('sphinx-sidebar-width');
+            if (sidebar_width) {
+                document.documentElement.style.setProperty('--sidebar-width', sidebar_width);
+            }
+            // show sidebar on wide screen
+            if (!sidebar && window.matchMedia('(min-width: 100rem)').matches) {
+                sidebar = 'visible';
+                // NB: We don't store the value in localStorage!
+            }
+            if (sidebar === 'visible') {
+                document.getElementById('sidebar-checkbox').checked = true;
+            }
+        } catch(e) {
+            console.info(e);
+        }
+    </script>
+    <header id="topbar-placeholder">
+      <div id="topbar">
+        <div id="titlebar">
+          <div class="buttons">
+            <label for="sidebar-checkbox" id="sidebar-button" role="button" tabindex="0" aria-controls="sphinxsidebar" accesskey="M">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+            </label>
+            <button id="search-button" type="button" title="Search" aria-label="Search" aria-expanded="false" aria-controls="search-form" accesskey="S">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+            </button>
+          </div>
+          <div class="title">
+            <a class="parent" href="../../index.html" accesskey="U">Validation Studies</a>
+            <a class="top" href="#">Grid Convergence Study (Linux)</a>
+          </div>
+          <div class="buttons">
+            <button id="fullscreen-button" type="button" aria-hidden="true">
+              <span class="enable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M212.686 315.314L120 408l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C10.697 480 0 469.255 0 456V344c0-21.382 25.803-32.09 40.922-16.971L72 360l92.686-92.686c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.249 6.248 6.249 16.378 0 22.627zm22.628-118.628L328 104l-32.922-31.029C279.958 57.851 290.666 32 312.048 32h112C437.303 32 448 42.745 448 56v112c0 21.382-25.803 32.09-40.922 16.971L376 152l-92.686 92.686c-6.248 6.248-16.379 6.248-22.627 0l-25.373-25.373c-6.249-6.248-6.249-16.378 0-22.627z"/></svg>
+              </span>
+              <span class="disable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M4.686 427.314L104 328l-32.922-31.029C55.958 281.851 66.666 256 88.048 256h112C213.303 256 224 266.745 224 280v112c0 21.382-25.803 32.09-40.922 16.971L152 376l-99.314 99.314c-6.248 6.248-16.379 6.248-22.627 0L4.686 449.941c-6.248-6.248-6.248-16.379 0-22.627zM443.314 84.686L344 184l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C234.697 256 224 245.255 224 232V120c0-21.382 25.803-32.09 40.922-16.971L296 136l99.314-99.314c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.248 6.248 6.248 16.379 0 22.627z"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div id="searchbox" role="search">
+          <form id="search-form" class="search" style="display: none" action="../../../search.html" method="get">
+            <input type="search" name="q" placeholder="Search ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <button>Go</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <nav>
+      <a href="../../fm/linux/report.html" class="nav-icon previous" title="previous:&#13;Grid Convergence Study (Linux)" aria-label="Previous topic" accesskey="P" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
+      </a>
+      <a href="../../comparison/report.html" class="nav-icon next" title="next:&#13;Model Comparison (Windows)" aria-label="Next topic" accesskey="N" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg>
+      </a>
+    </nav>
+
+    <nav class="relbar">
+      <a class="previous" href="../../fm/linux/report.html" aria-label="Previous topic" >
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/></svg>
+        </div>
+        <div class="title">
+          <span class="text">
+            <span class="direction">previous</span>
+            Grid Convergence Study (Linux)
+          </span>
+        </div>
+      </a>
+      <a class="next" href="../../comparison/report.html" aria-label="Next topic" >
+        <div class="title">
+          <span class="text">
+            <span class="direction">next</span>
+            Model Comparison (Windows)
+          </span>
+        </div>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/></svg>
+        </div>
+      </a>
+    </nav>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+
+<section id="grid-convergence-study-linux">
+<h1>Grid Convergence Study (Linux)<a class="headerlink" href="#grid-convergence-study-linux" title="Permalink to this heading">¶</a></h1>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h2>
+<p>This is a grid convergence study of 5 cases. The case with the finest
+grid resolution, of 0.0625m, achieved an asymptotic ratio of 1.003
+(asymptotic range is indicated by a value <span class="math notranslate nohighlight">\(\approx 1\)</span>). At zero
+grid resolution, the normalised velocity deficit measured 1.2 diameters
+downstream from the turbine was 43.04%, a 13.78% error against the
+measured value of 49.92% for the 3% ambient turbulence intensity (TI)
+experiment. At zero grid resolution the turbulence intensity measured
+1.2 diameters downstream from the turbine was 10.01%, an error of 45.71%
+against the measured value of 21.9% for the 3% ambient TI experiment.
+The simulated ambient TI, at zero grid resolution, is 5.47%.</p>
+<p>For the centreline velocity (3% TI) transect, the root mean square error
+at the lowest grid resolution was 0.2004 (m/s). For the centreline
+velocity (15% TI) transect, the root mean square error at the lowest
+grid resolution was 0.09075 (m/s). For the axial velocity at
+<span class="math notranslate nohighlight">\(x^*=5\)</span> (3% TI) transect, the root mean square error at the lowest
+grid resolution was 0.1232 (m/s). For the axial velocity at
+<span class="math notranslate nohighlight">\(x^*=5\)</span> (15% TI) transect, the root mean square error at the
+lowest grid resolution was 0.05688 (m/s). For the centreline turbulence
+intensity (3% TI) transect, the root mean square error at the lowest
+grid resolution was 6.543 (%). For the centreline turbulence intensity
+(15% TI) transect, the root mean square error at the lowest grid
+resolution was 10.31 (%).</p>
+</section>
+<section id="grid-convergence-studies">
+<h2>Grid Convergence Studies<a class="headerlink" href="#grid-convergence-studies" title="Permalink to this heading">¶</a></h2>
+<section id="free-stream-velocity">
+<h3>Free Stream Velocity<a class="headerlink" href="#free-stream-velocity" title="Permalink to this heading">¶</a></h3>
+<p>This section presents the convergence study for the free stream velocity
+(<span class="math notranslate nohighlight">\(U_\infty\)</span>). For the final case, with grid resolution of 0.0625m,
+an asymptotic ratio of 1.63 was achieved (asymptotic range is indicated
+by a value <span class="math notranslate nohighlight">\(\approx 1\)</span>). The free stream velocity at zero grid
+resolution is 0.8046m/s. The grid resolution required for a fine-grid
+GCI of 1.0% is 0.03862m.</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Free stream velocity (<span class="math notranslate nohighlight">\(U_\infty\)</span>) per grid resolution
+        with computational cells and error against value at zero grid resolution</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p># cells</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(U_\infty\)</span> (m/s)</p></th>
+<th class="head"><p>error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>144</p></td>
+<td><p>0.756681</p></td>
+<td><p>0.0595774</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>1152</p></td>
+<td><p>0.790921</p></td>
+<td><p>0.0170231</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>9216</p></td>
+<td><p>0.793301</p></td>
+<td><p>0.0140647</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>73728</p></td>
+<td><p>0.794949</p></td>
+<td><p>0.0120171</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>589824</p></td>
+<td><p>0.797055</p></td>
+<td><p>0.00939923</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../../_images/u_infty_convergence2.png"><img alt="Free stream velocity error against value at zero grid resolution per grid resolution" src="../../../_images/u_infty_convergence2.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Free stream velocity error against value at zero grid resolution per
+grid resolution</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="free-stream-turbulence-intensity">
+<h3>Free Stream Turbulence Intensity<a class="headerlink" href="#free-stream-turbulence-intensity" title="Permalink to this heading">¶</a></h3>
+<p>This section presents the convergence study for the free stream
+turbulence intensity (<span class="math notranslate nohighlight">\(I_\infty\)</span>). For the final case, with grid
+resolution of 0.0625m, an asymptotic ratio of 2.029 was achieved
+(asymptotic range is indicated by a value <span class="math notranslate nohighlight">\(\approx 1\)</span>). The free
+stream velocity at zero grid resolution is 5.47%. The grid resolution
+required for a fine-grid GCI of 1.0% is 0.003269m.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Free stream turbulence intensity (<span class="math notranslate nohighlight">\(I_\infty\)</span>) per grid
+        resolution with computational cells and error against value at zero grid
+        resolution</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p># cells</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(I_\infty\)</span> (%)</p></th>
+<th class="head"><p>error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>144</p></td>
+<td><p>4.60414</p></td>
+<td><p>0.158243</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>1152</p></td>
+<td><p>3.47658</p></td>
+<td><p>0.364391</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>9216</p></td>
+<td><p>5.24653</p></td>
+<td><p>0.0407978</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>73728</p></td>
+<td><p>5.18668</p></td>
+<td><p>0.0517407</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>589824</p></td>
+<td><p>5.27265</p></td>
+<td><p>0.0360232</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../../_images/ti_infty_convergence2.png"><img alt="Free stream turbulence intensity error against value at zero grid resolution per grid resolution" src="../../../_images/ti_infty_convergence2.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Free stream turbulence intensity error against value at zero grid
+resolution per grid resolution</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="wake-velocity">
+<h3>Wake Velocity<a class="headerlink" href="#wake-velocity" title="Permalink to this heading">¶</a></h3>
+<p>This section presents the convergence study for the wake centerline
+velocity measured 1.2 diameters downstream from the turbine
+(<span class="math notranslate nohighlight">\(U_{1.2D}\)</span>). For the final case, with grid resolution of 0.0625m,
+an asymptotic ratio of 1.003 was achieved (asymptotic range is indicated
+by a value <span class="math notranslate nohighlight">\(\approx 1\)</span>). The free stream velocity at zero grid
+resolution is 0.4583m/s. The grid resolution required for a fine-grid
+GCI of 1.0% is 0.1524m.</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Wake centerline velocity 1.2 diameters downstream
+        (<span class="math notranslate nohighlight">\(U_{1.2D}\)</span>) per grid resolution with computational cells and
+        error against value at zero grid resolution</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p># cells</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(U_{1.2D}\)</span> (m/s)</p></th>
+<th class="head"><p>error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>144</p></td>
+<td><p>0.736009</p></td>
+<td><p>0.605977</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>1152</p></td>
+<td><p>0.644324</p></td>
+<td><p>0.405919</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>9216</p></td>
+<td><p>0.515944</p></td>
+<td><p>0.125793</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>73728</p></td>
+<td><p>0.45951</p></td>
+<td><p>0.00265518</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>589824</p></td>
+<td><p>0.458319</p></td>
+<td><p>5.6044e-05</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../../_images/u_wake_convergence2.png"><img alt="Wake velocity error against value at zero grid resolution per grid resolution" src="../../../_images/u_wake_convergence2.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Wake velocity error against value at zero grid resolution per grid
+resolution</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="wake-turbulence-intensity">
+<h3>Wake Turbulence Intensity<a class="headerlink" href="#wake-turbulence-intensity" title="Permalink to this heading">¶</a></h3>
+<p>This section presents the convergence study for the wake centerline
+turbulence intensity (TI) measured 1.2 diameters downstream from the
+turbine (<span class="math notranslate nohighlight">\(I_{1.2D}\)</span>). For the final case, with grid resolution of
+0.0625m, an asymptotic ratio of 1.036 was achieved (asymptotic range is
+indicated by a value <span class="math notranslate nohighlight">\(\approx 1\)</span>). TI at zero grid resolution is
+10.01%. The grid resolution required for a fine- grid GCI of 1.0% is
+0.05952m.</p>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text">Wake centerline TI 1.2 diameters downstream
+        (<span class="math notranslate nohighlight">\(I_{1.2D}\)</span>) per grid resolution with computational cells and
+        error against value at zero grid resolution</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p># cells</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(I_{1.2D} (\%)\)</span></p></th>
+<th class="head"><p>error</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>144</p></td>
+<td><p>4.63007</p></td>
+<td><p>0.537339</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>1152</p></td>
+<td><p>4.96932</p></td>
+<td><p>0.50344</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>9216</p></td>
+<td><p>12.3321</p></td>
+<td><p>0.23229</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>73728</p></td>
+<td><p>10.4663</p></td>
+<td><p>0.0458488</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>589824</p></td>
+<td><p>10.0981</p></td>
+<td><p>0.00904952</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../../_images/ti_wake_convergence2.png"><img alt="Wake TI error against value at zero grid resolution per grid resolution" src="../../../_images/ti_wake_convergence2.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Wake TI error against value at zero grid resolution per grid
+resolution</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="validation">
+<h3>Validation<a class="headerlink" href="#validation" title="Permalink to this heading">¶</a></h3>
+<p>At zero grid resolution, the normalised deficit of <span class="math notranslate nohighlight">\(U_{1.2D}\)</span>,
+(<span class="math notranslate nohighlight">\(\gamma_{0(1.2D)}\)</span>) is 43.04%, a 13.78% error against the
+measured value of 49.92%.</p>
+</section>
+</section>
+<section id="wake-transects">
+<h2>Wake Transects<a class="headerlink" href="#wake-transects" title="Permalink to this heading">¶</a></h2>
+<p>This section presents axial velocity transects along the turbine
+centreline and at cross-sections along the <span class="math notranslate nohighlight">\(y\)</span>-axis. Errors are
+reported relative to the experimental data given in (Mycek et al. 2014).</p>
+<section id="centreline-velocity-3-ti">
+<h3>Centreline velocity (3% TI)<a class="headerlink" href="#centreline-velocity-3-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 0.2004 (m/s).</p>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-text">Root mean square error (RMSE) for the normalised velocity,
+        <span class="math notranslate nohighlight">\(u^*_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (m/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.401335</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>0.271788</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>0.239064</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>0.190003</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>0.200371</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="../../../_images/transect_u0_02.png"><img alt="Normalised velocity, :math:`u^*_0`, (m/s) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11a)." src="../../../_images/transect_u0_02.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity, <span class="math notranslate nohighlight">\(u^*_0\)</span>, (m/s) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. 11a).</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="../../../_images/transect_gamma0_02.png"><img alt="Normalised velocity deficit, :math:`\gamma_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11a)." src="../../../_images/transect_gamma0_02.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity deficit, <span class="math notranslate nohighlight">\(\gamma_0\)</span>, (%) per grid
+resolution comparison. Experimental data reverse engineered from
+(Mycek et al. 2014, fig. 11a).</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="centreline-velocity-15-ti">
+<h3>Centreline velocity (15% TI)<a class="headerlink" href="#centreline-velocity-15-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 0.09075 (m/s).</p>
+<table class="docutils align-default" id="id12">
+<caption><span class="caption-text">Root mean square error (RMSE) for the normalised velocity,
+        <span class="math notranslate nohighlight">\(u^*_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (m/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.203884</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>0.136543</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>0.0818053</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>0.101083</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>0.0907545</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="../../../_images/transect_u0_12.png"><img alt="Normalised velocity, :math:`u^*_0`, (m/s) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11b)." src="../../../_images/transect_u0_12.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity, <span class="math notranslate nohighlight">\(u^*_0\)</span>, (m/s) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. 11b).</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id14">
+<a class="reference internal image-reference" href="../../../_images/transect_gamma0_12.png"><img alt="Normalised velocity deficit, :math:`\gamma_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11b)." src="../../../_images/transect_gamma0_12.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity deficit, <span class="math notranslate nohighlight">\(\gamma_0\)</span>, (%) per grid
+resolution comparison. Experimental data reverse engineered from
+(Mycek et al. 2014, fig. 11b).</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="axial-velocity-at-x-5-3-ti">
+<h3>Axial velocity at <span class="math notranslate nohighlight">\(x^*=5\)</span> (3% TI)<a class="headerlink" href="#axial-velocity-at-x-5-3-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 0.1232 (m/s).</p>
+<table class="docutils align-default" id="id15">
+<caption><span class="caption-text">Root mean square error (RMSE) for the normalised velocity,
+        <span class="math notranslate nohighlight">\(u^*_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (m/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.201806</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>0.134912</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>0.135605</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>0.118328</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>0.123211</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id16">
+<a class="reference internal image-reference" href="../../../_images/transect_u0_22.png"><img alt="Normalised velocity, :math:`u^*_0`, (m/s) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. A12a)." src="../../../_images/transect_u0_22.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity, <span class="math notranslate nohighlight">\(u^*_0\)</span>, (m/s) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. A12a).</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id17">
+<a class="reference internal image-reference" href="../../../_images/transect_gamma0_22.png"><img alt="Normalised velocity deficit, :math:`\gamma_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. A12a)." src="../../../_images/transect_gamma0_22.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity deficit, <span class="math notranslate nohighlight">\(\gamma_0\)</span>, (%) per grid
+resolution comparison. Experimental data reverse engineered from
+(Mycek et al. 2014, fig. A12a).</span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="axial-velocity-at-x-5-15-ti">
+<h3>Axial velocity at <span class="math notranslate nohighlight">\(x^*=5\)</span> (15% TI)<a class="headerlink" href="#axial-velocity-at-x-5-15-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 0.05688 (m/s).</p>
+<table class="docutils align-default" id="id18">
+<caption><span class="caption-text">Root mean square error (RMSE) for the normalised velocity,
+        <span class="math notranslate nohighlight">\(u^*_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id18" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (m/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.0474432</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>0.0520709</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>0.0470543</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>0.0609816</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>0.056879</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id19">
+<a class="reference internal image-reference" href="../../../_images/transect_u0_32.png"><img alt="Normalised velocity, :math:`u^*_0`, (m/s) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. A12a)." src="../../../_images/transect_u0_32.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity, <span class="math notranslate nohighlight">\(u^*_0\)</span>, (m/s) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. A12a).</span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id20">
+<a class="reference internal image-reference" href="../../../_images/transect_gamma0_32.png"><img alt="Normalised velocity deficit, :math:`\gamma_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. A12a)." src="../../../_images/transect_gamma0_32.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Normalised velocity deficit, <span class="math notranslate nohighlight">\(\gamma_0\)</span>, (%) per grid
+resolution comparison. Experimental data reverse engineered from
+(Mycek et al. 2014, fig. A12a).</span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="centreline-turbulence-intensity-3-ti">
+<h3>Centreline turbulence intensity (3% TI)<a class="headerlink" href="#centreline-turbulence-intensity-3-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 6.543 (%).</p>
+<table class="docutils align-default" id="id21">
+<caption><span class="caption-text">Root mean square error (RMSE) for the turbulence intensity,
+        <span class="math notranslate nohighlight">\(I_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id21" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>12.0893</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>11.121</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>6.18045</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>6.62332</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>6.54326</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id22">
+<a class="reference internal image-reference" href="../../../_images/transect_I0_02.png"><img alt="Turbulence intensity, :math:`I_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11c)." src="../../../_images/transect_I0_02.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Turbulence intensity, <span class="math notranslate nohighlight">\(I_0\)</span>, (%) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. 11c).</span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="centreline-turbulence-intensity-15-ti">
+<h3>Centreline turbulence intensity (15% TI)<a class="headerlink" href="#centreline-turbulence-intensity-15-ti" title="Permalink to this heading">¶</a></h3>
+<p>The root mean square error (RMSE) for this transect at the finest grid
+resolution of 0.0625m was 10.31 (%).</p>
+<table class="docutils align-default" id="id23">
+<caption><span class="caption-text">Root mean square error (RMSE) for the turbulence intensity,
+        <span class="math notranslate nohighlight">\(I_0\)</span>, per grid resolution.</span><a class="headerlink" href="#id23" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>resolution (m)</p></th>
+<th class="head"><p>RMSE (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>15.5431</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5</p></td>
+<td><p>14.7203</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>9.71568</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.125</p></td>
+<td><p>10.3019</p></td>
+</tr>
+<tr class="row-even"><td><p>0.0625</p></td>
+<td><p>10.3063</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id24">
+<a class="reference internal image-reference" href="../../../_images/transect_I0_12.png"><img alt="Turbulence intensity, :math:`I_0`, (%) per grid resolution comparison. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11d)." src="../../../_images/transect_I0_12.png" style="width: 5.68in;" /></a>
+<figcaption>
+<p><span class="caption-text">Turbulence intensity, <span class="math notranslate nohighlight">\(I_0\)</span>, (%) per grid resolution
+comparison. Experimental data reverse engineered from (Mycek et al.
+2014, fig. 11d).</span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<div class="references csl-bib-body hanging-indent docutils container" id="refs">
+<div class="csl-entry docutils container" id="ref-mycek2014">
+<p>Mycek, Paul, Benoît Gaurier, Grégory Germain, Grégory Pinon, and
+Elie Rivoalen. 2014. “Experimental Study of the Turbulence
+Intensity Effects on Marine Current Turbines Behaviour. Part I:
+One Single Turbine.” <em>Renewable Energy</em> 66: 729–46.
+<a class="reference external" href="https://doi.org/10.1016/j.renene.2013.12.036">https://doi.org/10.1016/j.renene.2013.12.036</a>.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+          <div class="sidebar-resize-handle"></div>
+
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Validation Studies</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#flexible-mesh">Flexible Mesh</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#structured">Structured</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#comparison">Comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/snl_d3d_cec_verify.html">API</a></li>
+</ul>
+
+<hr class="docutils" />
+<ul>
+  <li class="toctree-l1"><a class="reference internal" href="../../../genindex.html" accesskey="I">General Index</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="../../../py-modindex.html">Python Module Index</a></li>
+</ul>
+<hr class="docutils" />
+<p class="caption" role="heading">
+  <span class="caption-text">Tags</span>
+</p>
+<ul class="versionlist">
+</ul>
+<p class="caption" role="heading">
+  <span class="caption-text">Branches</span>
+</p>
+<ul class="versionlist">
+  <li><a href="report.html">main</a></li>
+</ul>
+
+<div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+    <nav class="relbar">
+      <a class="previous" href="../../fm/linux/report.html" aria-label="Previous topic" >
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/></svg>
+        </div>
+        <div class="title">
+          <span class="text">
+            <span class="direction">previous</span>
+            Grid Convergence Study (Linux)
+          </span>
+        </div>
+      </a>
+      <a class="next" href="../../comparison/report.html" aria-label="Next topic" >
+        <div class="title">
+          <span class="text">
+            <span class="direction">next</span>
+            Model Comparison (Windows)
+          </span>
+        </div>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/></svg>
+        </div>
+      </a>
+    </nav>
+
+    <footer role="contentinfo">
+      &#169; Copyright 2022, Mathew Topper.
+      Created using <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      <a class="reference external" href="https://insipid-sphinx-theme.readthedocs.io/">Insipid Theme</a>.
+<a class="reference internal" href="../../../_sources/validation/structured/linux/report.rst.txt" rel="nofollow">Show Source</a>.
+    </footer>
+  </body>
+</html>

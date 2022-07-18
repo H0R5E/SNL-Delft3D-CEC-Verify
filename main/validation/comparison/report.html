@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Model Comparison (Windows) &#8212; SNL-Delft3D-CEC-Verify 0.8.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/insipid.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="../../_static/insipid.js"></script>
+    <script defer src="../../_static/insipid-sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API" href="../../api/snl_d3d_cec_verify.html" />
+    <link rel="prev" title="Grid Convergence Study (Linux)" href="../structured/linux/report.html" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head><body>
+    <script type="text/javascript">
+        document.body.classList.add('js');
+    </script>
+    <input type="checkbox" id="sidebar-checkbox" style="display: none;">
+    <label id="overlay" for="sidebar-checkbox"></label>
+    <div class="sidebar-resize-handle"></div>
+    <script type="text/javascript">
+        try {
+            let sidebar = localStorage.getItem('sphinx-sidebar');
+            const sidebar_width = localStorage.getItem('sphinx-sidebar-width');
+            if (sidebar_width) {
+                document.documentElement.style.setProperty('--sidebar-width', sidebar_width);
+            }
+            // show sidebar on wide screen
+            if (!sidebar && window.matchMedia('(min-width: 100rem)').matches) {
+                sidebar = 'visible';
+                // NB: We don't store the value in localStorage!
+            }
+            if (sidebar === 'visible') {
+                document.getElementById('sidebar-checkbox').checked = true;
+            }
+        } catch(e) {
+            console.info(e);
+        }
+    </script>
+    <header id="topbar-placeholder">
+      <div id="topbar">
+        <div id="titlebar">
+          <div class="buttons">
+            <label for="sidebar-checkbox" id="sidebar-button" role="button" tabindex="0" aria-controls="sphinxsidebar" accesskey="M">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+            </label>
+            <button id="search-button" type="button" title="Search" aria-label="Search" aria-expanded="false" aria-controls="search-form" accesskey="S">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+            </button>
+          </div>
+          <div class="title">
+            <a class="parent" href="../index.html" accesskey="U">Validation Studies</a>
+            <a class="top" href="#">Model Comparison (Windows)</a>
+          </div>
+          <div class="buttons">
+            <button id="fullscreen-button" type="button" aria-hidden="true">
+              <span class="enable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M212.686 315.314L120 408l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C10.697 480 0 469.255 0 456V344c0-21.382 25.803-32.09 40.922-16.971L72 360l92.686-92.686c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.249 6.248 6.249 16.378 0 22.627zm22.628-118.628L328 104l-32.922-31.029C279.958 57.851 290.666 32 312.048 32h112C437.303 32 448 42.745 448 56v112c0 21.382-25.803 32.09-40.922 16.971L376 152l-92.686 92.686c-6.248 6.248-16.379 6.248-22.627 0l-25.373-25.373c-6.249-6.248-6.249-16.378 0-22.627z"/></svg>
+              </span>
+              <span class="disable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M4.686 427.314L104 328l-32.922-31.029C55.958 281.851 66.666 256 88.048 256h112C213.303 256 224 266.745 224 280v112c0 21.382-25.803 32.09-40.922 16.971L152 376l-99.314 99.314c-6.248 6.248-16.379 6.248-22.627 0L4.686 449.941c-6.248-6.248-6.248-16.379 0-22.627zM443.314 84.686L344 184l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C234.697 256 224 245.255 224 232V120c0-21.382 25.803-32.09 40.922-16.971L296 136l99.314-99.314c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.248 6.248 6.248 16.379 0 22.627z"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div id="searchbox" role="search">
+          <form id="search-form" class="search" style="display: none" action="../../search.html" method="get">
+            <input type="search" name="q" placeholder="Search ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <button>Go</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <nav>
+      <a href="../structured/linux/report.html" class="nav-icon previous" title="previous:&#13;Grid Convergence Study (Linux)" aria-label="Previous topic" accesskey="P" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
+      </a>
+      <a href="../../api/snl_d3d_cec_verify.html" class="nav-icon next" title="next:&#13;API" aria-label="Next topic" accesskey="N" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg>
+      </a>
+    </nav>
+
+    <nav class="relbar">
+      <a class="previous" href="../structured/linux/report.html" aria-label="Previous topic" >
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/></svg>
+        </div>
+        <div class="title">
+          <span class="text">
+            <span class="direction">previous</span>
+            Grid Convergence Study (Linux)
+          </span>
+        </div>
+      </a>
+      <a class="next" href="../../api/snl_d3d_cec_verify.html" aria-label="Next topic" >
+        <div class="title">
+          <span class="text">
+            <span class="direction">next</span>
+            API
+          </span>
+        </div>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/></svg>
+        </div>
+      </a>
+    </nav>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+
+<section id="model-comparison-windows">
+<h1>Model Comparison (Windows)<a class="headerlink" href="#model-comparison-windows" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>This is a comparison of the performance of simulations of the Mycek
+flume experiment (Mycek et al. 2014) using the flexible mesh (FM) and
+structured grid solvers for Delft3D. The simulation settings are
+mirrored between the two methods as much as possible. The chosen grid
+resolution for this study is 0.0625m. Axial and radial velocities and
+turbulence intensity (TI) in the horizontal plane intersecting the
+turbine hub will be examined.</p>
+</section>
+<section id="axial-velocity-comparison">
+<span id="sec-axial"></span><h2>Axial Velocity Comparison<a class="headerlink" href="#axial-velocity-comparison" title="Permalink to this heading">¶</a></h2>
+<p>This section compares axial velocities between the FM and structured
+grid models. Figs. 1, 2 show the axial velocity over the horizontal
+plane intersecting the turbine hub for the FM and structured gird
+models, respectively. The units are non-dimensionalised by the
+free-stream velocity, measured at the hub location without the presence
+of the turbine. If <span class="math notranslate nohighlight">\(u\)</span> is the dimensional velocity, and
+<span class="math notranslate nohighlight">\(u_\infty\)</span> is the dimensional free stream velocity, then the
+normalized velocity <span class="math notranslate nohighlight">\(u^* = u / u_\infty\)</span>. Note the observable
+difference in the wake velocities immediately downstream of the turbine
+between the two simulations.</p>
+<figure class="align-default" id="fig-turb-z-u-fm">
+<a class="reference internal image-reference" href="../../_images/turb_z_u_fm.png"><img alt="Figure 1: Axial velocity normalised by the free stream velocity for the fm model type" src="../../_images/turb_z_u_fm.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1: Axial velocity normalised by the free stream velocity for
+the fm model type</span><a class="headerlink" href="#fig-turb-z-u-fm" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-turb-z-u-structured">
+<a class="reference internal image-reference" href="../../_images/turb_z_u_structured.png"><img alt="Figure 2: Axial velocity normalised by the free stream velocity for the structured model type" src="../../_images/turb_z_u_structured.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 2: Axial velocity normalised by the free stream velocity for
+the structured model type</span><a class="headerlink" href="#fig-turb-z-u-structured" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Fig. 3 shows the error between the non-dimensional axial velocities of
+the structured grid and FM models, relative to the maximum value within
+the two simulations. Three main areas of difference are revealed, the
+increased deficit in the near wake for the structured model, the reduced
+deficit of the structured model in the far wake and the increased
+acceleration around the edges of the turbine of the structured model.</p>
+<figure class="align-default" id="fig-turb-z-u-diff">
+<a class="reference internal image-reference" href="../../_images/turb_z_u_diff.png"><img alt="Figure 3: Relative error in normalised axial velocity between the structured and fm models" src="../../_images/turb_z_u_diff.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 3: Relative error in normalised axial velocity between the
+structured and fm models</span><a class="headerlink" href="#fig-turb-z-u-diff" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Comparing the non-dimensional centerline velocities alongside the
+experimental data (published in (Mycek et al. 2014)) for two turbulence
+intensity (TI) levels, in fig. 4, confirms the behavior in the near and
+far wake shown in fig. 3. Generally, the structured model performs
+better in the near wake compared to the experimental data. In the far
+wake, the FM model better repesents the 3% TI experimental data, and the
+structured model matches better to the 15% TI experimental data.
+Nonetheless, neither model captures the experimental measurements well
+for the whole centerline. Note that the TI within the Delft3D
+simulations is between 5% and 6%.</p>
+<figure class="align-default" id="fig-transect-u">
+<a class="reference internal image-reference" href="../../_images/transect_u.png"><img alt="Figure 4: Comparison of the normalised turbine centerline velocity. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11a &amp; 11b)." src="../../_images/transect_u.png" style="width: 5.5in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 4: Comparison of the normalised turbine centerline velocity.
+Experimental data reverse engineered from (Mycek et al. 2014, fig.
+11a &amp; 11b).</span><a class="headerlink" href="#fig-transect-u" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="radial-velocity-comparison">
+<span id="sec-radial"></span><h2>Radial Velocity Comparison<a class="headerlink" href="#radial-velocity-comparison" title="Permalink to this heading">¶</a></h2>
+<p>This section compares radial velocities between the FM and structured
+grid models. Figs. 5, 6 show the radial velocity over the horizontal
+plane intersecting the turbine hub for the FM and structured gird
+models, respectively. The units are non-dimensionalized by the
+free-stream velocity, (in the axial direction) measured at the hub
+location without the presence of the turbine. If <span class="math notranslate nohighlight">\(v\)</span> is the
+dimensional velocity, then the normalized velocity
+<span class="math notranslate nohighlight">\(v^* = v / u_\infty\)</span>. Note the increased radial velocities
+recorded for the structured grid compared to the FM simulation.</p>
+<figure class="align-default" id="fig-turb-z-v-fm">
+<a class="reference internal image-reference" href="../../_images/turb_z_v_fm.png"><img alt="Figure 5: Radial velocity normalised by the free stream velocity for the fm model type" src="../../_images/turb_z_v_fm.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 5: Radial velocity normalised by the free stream velocity for
+the fm model type</span><a class="headerlink" href="#fig-turb-z-v-fm" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-turb-z-v-structured">
+<a class="reference internal image-reference" href="../../_images/turb_z_v_structured.png"><img alt="Figure 6: Radial velocity normalised by the free stream velocity for the structured model type" src="../../_images/turb_z_v_structured.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 6: Radial velocity normalised by the free stream velocity for
+the structured model type</span><a class="headerlink" href="#fig-turb-z-v-structured" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Fig. 7 shows the error between the non-dimensional radial velocities of
+the structured grid and FM models, relative to the maximum value within
+the two simulations. The largest errors are seen upstream of the
+turbine, while smaller errors are seen downstream of the turbine. The
+errors in the radial flow are also much higher than for the axial flow,
+with the maximum error in radial velocity being 0.2425, while the error
+is 0.08593 for the axial velocity (from fig. 3).</p>
+<figure class="align-default" id="fig-turb-z-v-diff">
+<a class="reference internal image-reference" href="../../_images/turb_z_v_diff.png"><img alt="Figure 7: Relative error in normalised radial velocity between the structured and fm models" src="../../_images/turb_z_v_diff.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 7: Relative error in normalised radial velocity between the
+structured and fm models</span><a class="headerlink" href="#fig-turb-z-v-diff" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="turbulence-intensity-comparison">
+<span id="sec-ti"></span><h2>Turbulence Intensity Comparison<a class="headerlink" href="#turbulence-intensity-comparison" title="Permalink to this heading">¶</a></h2>
+<p>This section compares turbulence intensity (TI) values between the FM
+and structured grid models. Figs. 8, 9 show the normalized TI over the
+horizontal plane intersecting the turbine hub for the FM and structured
+gird models, respectively. The units are non-dimensionalized by the
+free-stream TI measured at the hub location without the presence of the
+turbine. For the structured grid simulation the free stream TI is 5.273
+% and for the FM simulation it is 5.281 %. If <span class="math notranslate nohighlight">\(I\)</span> is the
+dimensional TI, then the normalized TI <span class="math notranslate nohighlight">\(I^* = I / I_\infty\)</span>. Note
+the increased levels of TI over wider radial distances from the wake
+centreline for the FM model, while the increased TI is concentrated
+directly downstream of the turbine for the structured grid simulation.
+This differing behaviour is confirmed when differencing the two
+simulations, as shown in fig. 10.</p>
+<figure class="align-default" id="fig-turb-z-ti-fm">
+<a class="reference internal image-reference" href="../../_images/turb_z_ti_fm.png"><img alt="Figure 8: Turbulence intensity normalised by the free-stream value measured at the turbine hub, :math:`I^*`, for the fm model type" src="../../_images/turb_z_ti_fm.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 8: Turbulence intensity normalised by the free-stream value
+measured at the turbine hub, <span class="math notranslate nohighlight">\(I^*\)</span>, for the fm model type</span><a class="headerlink" href="#fig-turb-z-ti-fm" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-turb-z-ti-structured">
+<a class="reference internal image-reference" href="../../_images/turb_z_ti_structured.png"><img alt="Figure 9: Turbulence intensity normalised by the free-stream value measured at the turbine hub, :math:`I^*`, for the structured model type" src="../../_images/turb_z_ti_structured.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 9: Turbulence intensity normalised by the free-stream value
+measured at the turbine hub, <span class="math notranslate nohighlight">\(I^*\)</span>, for the structured model
+type</span><a class="headerlink" href="#fig-turb-z-ti-structured" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-turb-z-ti-diff">
+<a class="reference internal image-reference" href="../../_images/turb_z_ti_diff.png"><img alt="Figure 10: Difference in normalised TI between the structured and FM simulations" src="../../_images/turb_z_ti_diff.png" style="width: 3.64in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 10: Difference in normalised TI between the structured and FM
+simulations</span><a class="headerlink" href="#fig-turb-z-ti-diff" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The non-dimensional TI values along the wake centerline are compared
+with the experimental data (published in (Mycek et al. 2014)) for two
+turbulence intensity (TI) levels in fig. 11. Both the structured and FM
+models more closely represent the results from the 15% TI experimental
+data, although both simulations fail to capture the mixing behaviour in
+the far wake. Neither simulation resembles the very large increases in
+normalized TI seen in the 3% TI experimental data.</p>
+<figure class="align-default" id="fig-transect-ti">
+<a class="reference internal image-reference" href="../../_images/transect_ti.png"><img alt="Figure 11: Comparison of the normalised turbine centerline tubulence intensity. Experimental data reverse engineered from (Mycek et al. 2014, fig. 11c &amp; 11d)." src="../../_images/transect_ti.png" style="width: 5.5in;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 11: Comparison of the normalised turbine centerline tubulence
+intensity. Experimental data reverse engineered from (Mycek et al.
+2014, fig. 11c &amp; 11d).</span><a class="headerlink" href="#fig-transect-ti" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h2>
+<p>Comparison of simulations of the 2014 Mycek flume experiment (Mycek et
+al. 2014) using the flexible mesh (FM) and structured grid solvers for
+Delft3D, reveals significant differences. As seen in sec. 2, differences
+in the axial velocities between the two methods were seen in the near
+wake, far wake, and at the turbine edges. When comparing to the
+experimental data, as in fig. 3, it was observed that the structured
+grid simulation performs better in the near wake, while the FM
+simulation is better in the far wake.</p>
+<p>In sec. 3, radial velocities were compared with differences seen
+immediately upstream and downstream of the turbine (see fig. 7).
+Notably, the maximum relative errors between the two simulations were
+much larger for the radial velocities than then axial velocities, 0.2425
+and 0.08593 respectively.</p>
+<p>In sec. 4 turbulence intensity (TI) values are compared between the two
+simulation types and the experimental data. The distribution of TI in
+the turbine wake clearly differs between the FM and structured
+simulations, with increased TI seen at much greater radial distances
+from the turbine centerline in the FM simulations (see figs. 8-10).
+Compared to the experimental data both simulation types are similar to
+the 15% TI experimental data in the near wake although they fail to
+capture the amount of mixing in the far wake. The large increases in
+normalized TI of the 3% TI experiment are not recreated. Failure to
+precisely match the TI values of the experiments in the simulations may
+account for some of the differences seen.</p>
+<p>These discrepancies may account for some of the differences seen in the
+axial flows, although the underlying mechanisms are not yet known. Other
+factors may also be contributing, including interpretation of the
+simulation parameters or selection of the time step for the structured
+grid simulations.</p>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h3>
+<div class="references csl-bib-body hanging-indent docutils container" id="refs">
+<div class="csl-entry docutils container" id="ref-mycek2014">
+<p>Mycek, Paul, Benoît Gaurier, Grégory Germain, Grégory Pinon, and
+Elie Rivoalen. 2014. “Experimental Study of the Turbulence
+Intensity Effects on Marine Current Turbines Behaviour. Part I:
+One Single Turbine.” <em>Renewable Energy</em> 66: 729–46.
+<a class="reference external" href="https://doi.org/10.1016/j.renene.2013.12.036">https://doi.org/10.1016/j.renene.2013.12.036</a>.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+          <div class="sidebar-resize-handle"></div>
+
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Validation Studies</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#flexible-mesh">Flexible Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#structured">Structured</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#comparison">Comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/snl_d3d_cec_verify.html">API</a></li>
+</ul>
+
+<hr class="docutils" />
+<ul>
+  <li class="toctree-l1"><a class="reference internal" href="../../genindex.html" accesskey="I">General Index</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Python Module Index</a></li>
+</ul>
+<hr class="docutils" />
+<p class="caption" role="heading">
+  <span class="caption-text">Tags</span>
+</p>
+<ul class="versionlist">
+</ul>
+<p class="caption" role="heading">
+  <span class="caption-text">Branches</span>
+</p>
+<ul class="versionlist">
+  <li><a href="report.html">main</a></li>
+</ul>
+
+<div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+    <nav class="relbar">
+      <a class="previous" href="../structured/linux/report.html" aria-label="Previous topic" >
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/></svg>
+        </div>
+        <div class="title">
+          <span class="text">
+            <span class="direction">previous</span>
+            Grid Convergence Study (Linux)
+          </span>
+        </div>
+      </a>
+      <a class="next" href="../../api/snl_d3d_cec_verify.html" aria-label="Next topic" >
+        <div class="title">
+          <span class="text">
+            <span class="direction">next</span>
+            API
+          </span>
+        </div>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/></svg>
+        </div>
+      </a>
+    </nav>
+
+    <footer role="contentinfo">
+      &#169; Copyright 2022, Mathew Topper.
+      Created using <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      <a class="reference external" href="https://insipid-sphinx-theme.readthedocs.io/">Insipid Theme</a>.
+<a class="reference internal" href="../../_sources/validation/comparison/report.rst.txt" rel="nofollow">Show Source</a>.
+    </footer>
+  </body>
+</html>
